@@ -79,3 +79,7 @@ mongod
 *.ntvs*
 *.njsproj
 *.sln
+
+# asdf-vm.com
+# =========
+.tool-versions
