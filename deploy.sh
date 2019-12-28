@@ -113,7 +113,7 @@ selectNodeVersion
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   echo "Running $NPM_CMD install"
-  eval $NPM_CMD config set scripts-prepend-node-path true && $NPM_CMD install
+  eval $NPM_CMD install --production
   exitWithMessageOnError "npm install failed"
   cd - > /dev/null
 fi
@@ -121,7 +121,7 @@ fi
 # 4. Run production
 if [ -e "$DEPLOYMENT_TARGET/gulpfile.js" ]; then
   cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD config set scripts-prepend-node-path true && $NPM_CMD run start:prod
+  eval $NPM_CMD run start:prod
   exitWithMessageOnError "npm run start:prod failed"
 fi
 
