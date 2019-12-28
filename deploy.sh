@@ -112,13 +112,22 @@ selectNodeVersion
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
-  echo "Running $NPM_CMD install --production"
+  echo "Running $NPM_CMD install"
   eval $NPM_CMD install
   exitWithMessageOnError "npm install failed"
   cd - > /dev/null
 fi
 
-# 4. Run production
+# 4. Run postinstall
+if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
+  cd "$DEPLOYMENT_TARGET"
+  echo "Running $NPM_CMD run postinstall"
+  eval $NPM_CMD run postinstall
+  exitWithMessageOnError "npm run postinstall failed"
+  cd - > /dev/null
+fi
+
+# 5. Run production
 if [ -e "$DEPLOYMENT_TARGET/gulpfile.js" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD run start:prod
